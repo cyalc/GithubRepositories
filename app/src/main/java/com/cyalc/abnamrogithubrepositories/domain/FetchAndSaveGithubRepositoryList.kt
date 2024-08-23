@@ -1,22 +1,22 @@
 package com.cyalc.abnamrogithubrepositories.domain
 
-import com.cyalc.abnamrogithubrepositories.networking.GithubApi
-import com.cyalc.abnamrogithubrepositories.data.GithubDb
-import com.cyalc.abnamrogithubrepositories.data.models.RepositoryDbModel
+import com.cyalc.abnamrogithubrepositories.data.database.models.RepositoryDao
+import com.cyalc.abnamrogithubrepositories.data.networking.GithubApi
+import com.cyalc.abnamrogithubrepositories.data.database.models.RepositoryEntity
 import retrofit2.HttpException
 
 class FetchAndSaveGithubRepositoryList(
     private val githubApi: GithubApi,
-    private val githubDb: GithubDb,
+    private val repositoryDao: RepositoryDao,
 ) {
     suspend fun execute(): Result<Unit> = try {
         val repositories = githubApi.fetchRepositories(
             page = 1,
             size = 10,
         ).map { repositoryModel ->
-            RepositoryDbModel(repositoryModel.id)
+            RepositoryEntity(repositoryModel.id, "name")
         }
-        githubDb.saveRepositories(repositories)
+        repositoryDao.insertRepositories(repositories)
         Result.success(Unit)
     } catch (httpException: HttpException) {
         Result.failure(httpException)

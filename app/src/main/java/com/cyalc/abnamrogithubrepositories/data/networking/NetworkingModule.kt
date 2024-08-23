@@ -1,4 +1,4 @@
-package com.cyalc.abnamrogithubrepositories.networking
+package com.cyalc.abnamrogithubrepositories.data.networking
 
 import retrofit2.Retrofit
 

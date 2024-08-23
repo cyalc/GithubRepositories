@@ -1,6 +1,6 @@
-package com.cyalc.abnamrogithubrepositories.networking
+package com.cyalc.abnamrogithubrepositories.data.networking
 
-import com.cyalc.abnamrogithubrepositories.networking.models.RepositoryApiModel
+import com.cyalc.abnamrogithubrepositories.data.networking.models.RepositoryApiModel
 import retrofit2.http.GET
 import retrofit2.http.Query
 
