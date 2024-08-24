@@ -1,6 +1,6 @@
 package com.cyalc.abnamrogithubrepositories.domain
 
-import com.cyalc.abnamrogithubrepositories.data.database.models.RepositoryDao
+import com.cyalc.abnamrogithubrepositories.data.database.RepositoryDao
 import com.cyalc.abnamrogithubrepositories.data.networking.GithubApi
 import com.cyalc.abnamrogithubrepositories.data.database.models.RepositoryEntity
 import retrofit2.HttpException

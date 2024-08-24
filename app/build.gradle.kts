@@ -51,4 +51,8 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.room)
     annotationProcessor(libs.room.compiler)
+
+    implementation(platform(libs.koin.bom))
+    implementation(libs.koin.core)
+    implementation(libs.koin.android)
 }

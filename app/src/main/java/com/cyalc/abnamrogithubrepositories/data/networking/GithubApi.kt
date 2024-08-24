@@ -5,7 +5,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface GithubApi {
-    @GET("users/abnamrocoesd/repos?page=1&per_page=10")
+    @GET("users/abnamrocoesd/")
     suspend fun fetchRepositories(
         @Query("page") page: Int,
         @Query("per_page") size: Int,
