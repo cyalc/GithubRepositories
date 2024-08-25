@@ -4,6 +4,6 @@ import org.koin.dsl.module
 
 val domainModule = module {
     single {
-        FetchAndSaveGithubRepositoryList(get(), get())
+        SyncRepositoriesUseCase(get(), get())
     }
 }

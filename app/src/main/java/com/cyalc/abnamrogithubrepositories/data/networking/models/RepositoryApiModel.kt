@@ -1,3 +1,3 @@
 package com.cyalc.abnamrogithubrepositories.data.networking.models
 
-data class RepositoryApiModel(val id: String)
+data class RepositoryApiModel(val id: String, val name: String)
