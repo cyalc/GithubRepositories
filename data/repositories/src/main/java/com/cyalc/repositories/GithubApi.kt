@@ -1,0 +1,13 @@
+package com.cyalc.repositories
+
+import com.cyalc.repositories.models.RepositoryApiModel
+import retrofit2.http.GET
+import retrofit2.http.Query
+
+internal interface GithubApi {
+    @GET("users/abnamrocoesd/")
+    suspend fun fetchRepositories(
+        @Query("page") page: Int,
+        @Query("per_page") size: Int,
+    ): List<RepositoryApiModel>
+}
