@@ -31,4 +31,4 @@ mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 room = { id = "androidx.room", version.ref = "room" }
-
+android-library = { id = "com.android.library", version.ref = "agp" }
