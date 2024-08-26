@@ -1,7 +1,7 @@
 package com.cyalc.repositories
 
-import android.net.http.HttpException
 import com.cyalc.repositories.models.RepositoryEntity
+import retrofit2.HttpException
 
 internal class SyncRepositoriesUseCaseImpl(
     private val githubApi: GithubApi,
