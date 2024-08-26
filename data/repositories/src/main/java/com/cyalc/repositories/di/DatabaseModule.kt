@@ -2,8 +2,8 @@ package com.cyalc.repositories.di
 
 import android.app.Application
 import androidx.room.Room
-import com.cyalc.repositories.RepositoryDao
-import com.cyalc.repositories.RepositoryDatabase
+import com.cyalc.repositories.datasource.local.RepositoryDao
+import com.cyalc.repositories.datasource.local.RepositoryDatabase
 import org.koin.dsl.module
 
 val databaseModule = module {

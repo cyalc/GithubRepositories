@@ -1,17 +1,16 @@
-package com.cyalc.repositories
+package com.cyalc.repositories.datasource.local
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.cyalc.repositories.models.RepositoryEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 internal interface RepositoryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertRepositories(repositories: List<RepositoryEntity>)
+    suspend fun insertRepositories(repositories: List<RepositoryDbModel>)
 
     @Query("SELECT * FROM repositoryentity")
-    fun loadRepositories(): Flow<List<RepositoryEntity>>
+    fun loadRepositories(): Flow<List<RepositoryDbModel>>
 }

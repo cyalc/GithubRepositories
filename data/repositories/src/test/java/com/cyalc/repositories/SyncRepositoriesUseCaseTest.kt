@@ -1,8 +1,10 @@
 package com.cyalc.repositories
 
 import com.cyalc.logging.Logger
-import com.cyalc.repositories.models.RepositoryApiModel
-import com.cyalc.repositories.models.RepositoryEntity
+import com.cyalc.repositories.datasource.local.RepositoryDao
+import com.cyalc.repositories.datasource.remote.GithubApi
+import com.cyalc.repositories.datasource.remote.RepositoryApiModel
+import com.cyalc.repositories.datasource.local.RepositoryDbModel
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -52,8 +54,8 @@ class SyncRepositoriesUseCaseTest {
 
         // Then
         val expectedEntities = listOf(
-            RepositoryEntity("1", "Repo1"),
-            RepositoryEntity("2", "Repo2")
+            RepositoryDbModel("1", "Repo1"),
+            RepositoryDbModel("2", "Repo2")
         )
         coVerify { mockRepositoryDao.insertRepositories(expectedEntities) }
     }

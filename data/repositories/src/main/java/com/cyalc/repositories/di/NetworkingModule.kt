@@ -1,6 +1,6 @@
 package com.cyalc.repositories.di
 
-import com.cyalc.repositories.GithubApi
+import com.cyalc.repositories.datasource.remote.GithubApi
 import org.koin.dsl.module
 import retrofit2.Retrofit
 

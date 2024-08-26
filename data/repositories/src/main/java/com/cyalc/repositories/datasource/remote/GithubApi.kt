@@ -1,6 +1,5 @@
-package com.cyalc.repositories
+package com.cyalc.repositories.datasource.remote
 
-import com.cyalc.repositories.models.RepositoryApiModel
 import retrofit2.http.GET
 import retrofit2.http.Query
 
