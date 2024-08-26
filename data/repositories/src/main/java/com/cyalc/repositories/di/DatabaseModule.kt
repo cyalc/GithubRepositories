@@ -4,12 +4,6 @@ import android.app.Application
 import androidx.room.Room
 import com.cyalc.repositories.datasource.local.RepositoryDao
 import com.cyalc.repositories.datasource.local.RepositoryDatabase
-import org.koin.dsl.module
-
-val databaseModule = module {
-    single { provideDatabase(get()) }
-    single { provideRepositoryDao(get()) }
-}
 
 internal fun provideDatabase(application: Application): RepositoryDatabase = Room
     .databaseBuilder(
