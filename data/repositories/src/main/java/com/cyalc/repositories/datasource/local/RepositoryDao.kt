@@ -11,6 +11,6 @@ internal interface RepositoryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertRepositories(repositories: List<RepositoryDbModel>)
 
-    @Query("SELECT * FROM repositoryentity")
+    @Query("SELECT * FROM repositorydbmodel")
     fun loadRepositories(): Flow<List<RepositoryDbModel>>
 }
