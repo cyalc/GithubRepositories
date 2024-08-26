@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.cyalc.repositories"
+    namespace = "com.cyalc.data.repositories"
     compileSdk = 34
 
     defaultConfig {
