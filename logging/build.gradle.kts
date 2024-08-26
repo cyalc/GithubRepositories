@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.cyalc.data.repositories"
+    namespace = "com.cyalc.logging"
     compileSdk = 34
 
     defaultConfig {
@@ -38,20 +38,11 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     testImplementation(libs.junit)
-    testImplementation(libs.mockk)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-
     implementation(platform(libs.koin.bom))
     implementation(libs.koin.core)
     implementation(libs.koin.android)
-    implementation(libs.retrofit)
-    implementation(libs.room)
-    annotationProcessor(libs.room.compiler)
 
-    implementation(project(":core:networking"))
-    implementation(project(":core:database"))
-    implementation(project(":core:base"))
-    implementation(project(":logging"))
-
+    implementation(libs.timber)
 }

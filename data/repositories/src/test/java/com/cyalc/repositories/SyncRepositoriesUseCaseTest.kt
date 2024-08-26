@@ -1,5 +1,6 @@
 package com.cyalc.repositories
 
+import com.cyalc.logging.Logger
 import com.cyalc.repositories.models.RepositoryApiModel
 import com.cyalc.repositories.models.RepositoryEntity
 import io.mockk.coEvery
@@ -14,26 +15,28 @@ class SyncRepositoriesUseCaseTest {
 
     private val mockGithubApi = mockk<GithubApi>()
     private val mockRepositoryDao = mockk<RepositoryDao>(relaxUnitFun = true)
+    private val mockLogger = mockk<Logger>(relaxUnitFun = true)
     private val syncRepositoriesUseCase =
-        SyncRepositoriesUseCaseImpl(mockGithubApi, mockRepositoryDao)
+        SyncRepositoriesUseCaseImpl(mockGithubApi, mockRepositoryDao, mockLogger)
 
     @Test
-    fun `execute should return success when API call and database insertion succeed`() = runBlocking {
-        // Given
-        val repositoryModels = listOf(
-            RepositoryApiModel("1", "Repo1"),
-            RepositoryApiModel("2", "Repo2"),
+    fun `execute should return success when API call and database insertion succeed`() =
+        runBlocking {
+            // Given
+            val repositoryModels = listOf(
+                RepositoryApiModel("1", "Repo1"),
+                RepositoryApiModel("2", "Repo2"),
 
-        )
-        coEvery { mockGithubApi.fetchRepositories(1, 10) } returns repositoryModels
+                )
+            coEvery { mockGithubApi.fetchRepositories(1, 10) } returns repositoryModels
 
-        // When
-        val result = syncRepositoriesUseCase.execute()
+            // When
+            val result = syncRepositoriesUseCase.execute()
 
-        // Then
-        assertTrue(result.isSuccess)
-        coVerify { mockRepositoryDao.insertRepositories(any()) }
-    }
+            // Then
+            assertTrue(result.isSuccess)
+            coVerify { mockRepositoryDao.insertRepositories(any()) }
+        }
 
     @Test
     fun `execute should map repository models to entities correctly`() = runBlocking {
