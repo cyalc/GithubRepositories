@@ -3,10 +3,10 @@ package com.cyalc.repositories.ui
 import androidx.compose.runtime.Immutable
 
 @Immutable
-data class RepositoryUiModel(
-    val id: String,
+data class RepoUiModel(
+    val id: Long,
     val name: String,
-    val ownerImageUrl: String,
+    val ownerAvatarUrl: String,
     val visibility: Boolean,
     val status: Status,
 ) {

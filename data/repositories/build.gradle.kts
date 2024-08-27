@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.room)
+    alias(libs.plugins.kotlinXSerialization)
 }
 
 android {
@@ -50,10 +51,13 @@ dependencies {
     implementation(libs.koin.core)
     implementation(libs.koin.android)
     implementation(libs.retrofit)
+    implementation(libs.retrofitKotlinxSerializationConverter)
 
     implementation(libs.room)
     ksp(libs.room.compiler)
     implementation(libs.roomKtx)
+
+    implementation(libs.kotlinxSerializationJson)
 
     implementation(project(":core:networking"))
     implementation(project(":core:database"))

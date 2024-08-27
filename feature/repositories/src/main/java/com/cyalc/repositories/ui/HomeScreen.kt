@@ -14,12 +14,12 @@ import coil.compose.AsyncImage
 
 
 @Composable
-fun HomeScreen(repositories: List<RepositoryUiModel>, modifier: Modifier) {
+fun HomeScreen(repositories: List<RepoUiModel>, modifier: Modifier) {
     RepositoryList(items = repositories)
 }
 
 @Composable
-fun RepositoryList(items: List<RepositoryUiModel>) {
+fun RepositoryList(items: List<RepoUiModel>) {
     LazyColumn {
         items(items, key = { it.id }) { item ->
             RepositoryItem(item = item)
@@ -29,7 +29,7 @@ fun RepositoryList(items: List<RepositoryUiModel>) {
 }
 
 @Composable
-fun RepositoryItem(item: RepositoryUiModel) {
+fun RepositoryItem(item: RepoUiModel) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -37,7 +37,7 @@ fun RepositoryItem(item: RepositoryUiModel) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         AsyncImage(
-            model = item.ownerImageUrl,
+            model = item.ownerAvatarUrl,
             contentDescription = "Owner Avatar",
             modifier = Modifier
                 .size(48.dp)
@@ -71,19 +71,19 @@ fun RepositoryListPreview() {
     MaterialTheme {
         HomeScreen(
             repositories = listOf(
-                RepositoryUiModel(
-                    id = "1",
+                RepoUiModel(
+                    id = 1,
                     name = "Repository 1",
-                    ownerImageUrl = "https://avatars.githubusercontent.com/u/1",
+                    ownerAvatarUrl = "https://avatars.githubusercontent.com/u/1",
                     visibility = true,
-                    status = RepositoryUiModel.Status.PUBLIC
+                    status = RepoUiModel.Status.PUBLIC
                 ),
-                RepositoryUiModel(
-                    id = "2",
+                RepoUiModel(
+                    id = 2,
                     name = "Repository 2",
-                    ownerImageUrl = "https://avatars.githubusercontent.com/u/2",
+                    ownerAvatarUrl = "https://avatars.githubusercontent.com/u/2",
                     visibility = false,
-                    status = RepositoryUiModel.Status.PRIVATE
+                    status = RepoUiModel.Status.PRIVATE
                 )
             ),
             modifier = Modifier.padding(8.dp)

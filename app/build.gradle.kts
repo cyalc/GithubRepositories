@@ -41,6 +41,7 @@ android {
 
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 
     composeOptions {
@@ -80,4 +81,5 @@ dependencies {
     implementation(libs.koin.android)
 
     implementation(project(":feature:repositories"))
+    implementation(project(":logging"))
 }

@@ -3,8 +3,8 @@ package com.cyalc.repositories
 import com.cyalc.logging.Logger
 import com.cyalc.repositories.datasource.local.RepositoryDao
 import com.cyalc.repositories.datasource.remote.GithubApi
-import com.cyalc.repositories.datasource.remote.RepositoryApiModel
-import com.cyalc.repositories.datasource.local.RepositoryDbModel
+import com.cyalc.repositories.datasource.remote.GithubRepoApiModel
+import com.cyalc.repositories.datasource.local.RepoDbModel
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -26,10 +26,9 @@ class SyncRepositoriesUseCaseTest {
         runBlocking {
             // Given
             val repositoryModels = listOf(
-                RepositoryApiModel("1", "Repo1"),
-                RepositoryApiModel("2", "Repo2"),
-
-                )
+                buildRandomRepositoryModel(),
+                buildRandomRepositoryModel(),
+            )
             coEvery { mockGithubApi.fetchRepositories(1, 10) } returns repositoryModels
 
             // When
@@ -44,8 +43,8 @@ class SyncRepositoriesUseCaseTest {
     fun `execute should map repository models to entities correctly`() = runBlocking {
         // Given
         val repositoryModels = listOf(
-            RepositoryApiModel("1", "Repo1"),
-            RepositoryApiModel("2", "Repo2"),
+            buildRandomRepositoryModel(),
+            buildRandomRepositoryModel()
         )
         coEvery { mockGithubApi.fetchRepositories(1, 10) } returns repositoryModels
 
@@ -54,8 +53,21 @@ class SyncRepositoriesUseCaseTest {
 
         // Then
         val expectedEntities = listOf(
-            RepositoryDbModel("1", "Repo1"),
-            RepositoryDbModel("2", "Repo2")
+            RepoDbModel(
+                id = 0,
+                name = repositoryModels[0].name,
+                ownerAvatarUrl = repositoryModels[0].ownerInfo.avatarUrl,
+                visibility = repositoryModels[0].visibility,
+                isPrivate = repositoryModels[0].isPrivate
+            ),
+            RepoDbModel(
+                id = 1,
+                name = repositoryModels[1].name,
+                ownerAvatarUrl = repositoryModels[1].ownerInfo.avatarUrl,
+                visibility = repositoryModels[1].visibility,
+                isPrivate = repositoryModels[1].isPrivate
+            )
+
         )
         coVerify { mockRepositoryDao.insertRepositories(expectedEntities) }
     }
@@ -88,3 +100,11 @@ class SyncRepositoriesUseCaseTest {
         coVerify(exactly = 0) { mockRepositoryDao.insertRepositories(any()) }
     }
 }
+
+private fun buildRandomRepositoryModel() = GithubRepoApiModel(
+    id = (1..100).random().toLong(),
+    name = "Repo${(1..100).random()}",
+    ownerInfo = GithubRepoApiModel.OwnerInfo("http://some_url"),
+    visibility = "public",
+    isPrivate = false
+)

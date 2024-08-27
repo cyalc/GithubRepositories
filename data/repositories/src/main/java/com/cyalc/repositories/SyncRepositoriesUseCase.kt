@@ -3,7 +3,6 @@ package com.cyalc.repositories
 import com.cyalc.logging.Logger
 import com.cyalc.repositories.datasource.local.RepositoryDao
 import com.cyalc.repositories.datasource.remote.GithubApi
-import com.cyalc.repositories.datasource.local.RepositoryDbModel
 import retrofit2.HttpException
 
 internal class SyncRepositoriesUseCaseImpl(
@@ -13,12 +12,7 @@ internal class SyncRepositoriesUseCaseImpl(
 ) : SyncRepositoriesUseCase {
     override suspend fun execute(page: Int, size: Int): Result<Unit> = try {
         val repositories = githubApi.fetchRepositories(page, size)
-            .map { repositoryModel ->
-                RepositoryDbModel(
-                    id = repositoryModel.id,
-                    name = repositoryModel.name
-                )
-            }
+            .map { repositoryModel -> repositoryModel.toDbModel() }
         repositoryDao.insertRepositories(repositories)
         Result.success(Unit)
     } catch (httpException: HttpException) {

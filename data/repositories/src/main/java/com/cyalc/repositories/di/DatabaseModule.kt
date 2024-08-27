@@ -11,6 +11,7 @@ internal fun provideDatabase(context: Context): RepositoryDatabase = Room
         klass = RepositoryDatabase::class.java,
         name = "repositories-database"
     )
+    .fallbackToDestructiveMigration()
     .build()
 
 internal fun provideRepositoryDao(database: RepositoryDatabase): RepositoryDao =

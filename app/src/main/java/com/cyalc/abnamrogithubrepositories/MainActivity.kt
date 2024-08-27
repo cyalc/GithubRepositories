@@ -21,13 +21,13 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        val repositories = repositoryListViewModel.repositories.value
         setContent {
+            val repositories = repositoryListViewModel.repositories.collectAsState()
             MaterialTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     HomeScreen(
                         modifier = Modifier.padding(innerPadding),
-                        repositories = repositories
+                        repositories = repositories.value
                     )
                 }
             }

@@ -9,12 +9,7 @@ internal class RepositoryRepositoryImpl(
 ) : RepositoryRepository {
     override fun observeRepositories() = repositoryDao.loadRepositories()
         .map {
-            it.map { repositoryDbModel ->
-                Repository(
-                    id = repositoryDbModel.id,
-                    name = repositoryDbModel.name,
-                )
-            }
+            it.map { repositoryDbModel -> repositoryDbModel.toDomainModel() }
         }
 }
 

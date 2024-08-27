@@ -2,7 +2,8 @@ package com.cyalc.repositories
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cyalc.repositories.ui.RepositoryUiModel
+import com.cyalc.repositories.ui.RepoUiModel
+import com.cyalc.repositories.ui.toUiModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -15,8 +16,8 @@ class RepositoryListViewModel(
     repository: RepositoryRepository,
 ) : ViewModel() {
 
-    private val _repositories = MutableStateFlow<List<RepositoryUiModel>>(emptyList())
-    val repositories: StateFlow<List<RepositoryUiModel>> = _repositories
+    private val _repositories = MutableStateFlow<List<RepoUiModel>>(emptyList())
+    val repositories: StateFlow<List<RepoUiModel>> = _repositories
 
     init {
         viewModelScope.launch {
@@ -29,17 +30,8 @@ class RepositoryListViewModel(
                 }
         }
 
-
         viewModelScope.launch {
             syncRepositoriesUseCase.execute(page = 1, PAGE_SIZE)
         }
     }
 }
-
-private fun Repository.toUiModel(): RepositoryUiModel = RepositoryUiModel(
-    id = id,
-    name = name,
-    ownerImageUrl = "ownerImageUrl",
-    visibility = true,
-    status = RepositoryUiModel.Status.PUBLIC
-)
