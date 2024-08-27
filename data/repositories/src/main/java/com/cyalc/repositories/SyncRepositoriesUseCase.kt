@@ -25,5 +25,5 @@ internal class SyncRepositoriesUseCaseImpl(
 }
 
 interface SyncRepositoriesUseCase {
-    suspend fun execute(page: Int = 1, size: Int = 10): Result<Unit>
+    suspend fun execute(page: Int = 1, size: Int = 20): Result<Unit>
 }

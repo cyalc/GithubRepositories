@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
-private const val PAGE_SIZE = 10
+private const val PAGE_SIZE = 20
 
 class RepositoryListViewModel(
     syncRepositoriesUseCase: SyncRepositoriesUseCase,
