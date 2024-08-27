@@ -1,6 +1,9 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.room)
+    alias(libs.plugins.kotlinXSerialization)
 }
 
 android {
@@ -24,19 +27,21 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_19
+        targetCompatibility = JavaVersion.VERSION_19
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "19"
+    }
+
+    room {
+        schemaDirectory("$projectDir/repositories/schemas")
     }
 }
 
 dependencies {
 
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
     testImplementation(libs.junit)
     testImplementation(libs.mockk)
     androidTestImplementation(libs.androidx.junit)
@@ -46,8 +51,13 @@ dependencies {
     implementation(libs.koin.core)
     implementation(libs.koin.android)
     implementation(libs.retrofit)
+    implementation(libs.retrofitKotlinxSerializationConverter)
+
     implementation(libs.room)
-    annotationProcessor(libs.room.compiler)
+    ksp(libs.room.compiler)
+    implementation(libs.roomKtx)
+
+    implementation(libs.kotlinxSerializationJson)
 
     implementation(project(":core:networking"))
     implementation(project(":core:database"))

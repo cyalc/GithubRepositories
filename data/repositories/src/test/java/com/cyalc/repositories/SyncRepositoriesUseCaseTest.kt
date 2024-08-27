@@ -1,8 +1,9 @@
 package com.cyalc.repositories
 
 import com.cyalc.logging.Logger
-import com.cyalc.repositories.models.RepositoryApiModel
-import com.cyalc.repositories.models.RepositoryEntity
+import com.cyalc.repositories.datasource.local.RepositoryDao
+import com.cyalc.repositories.datasource.remote.GithubApi
+import com.cyalc.repositories.datasource.remote.GithubRepoApiModel
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -24,14 +25,13 @@ class SyncRepositoriesUseCaseTest {
         runBlocking {
             // Given
             val repositoryModels = listOf(
-                RepositoryApiModel("1", "Repo1"),
-                RepositoryApiModel("2", "Repo2"),
-
-                )
+                buildRandomRepoApiModel(),
+                buildRandomRepoApiModel(),
+            )
             coEvery { mockGithubApi.fetchRepositories(1, 10) } returns repositoryModels
 
             // When
-            val result = syncRepositoriesUseCase.execute()
+            val result = syncRepositoriesUseCase.execute(1, 10)
 
             // Then
             assertTrue(result.isSuccess)
@@ -41,20 +41,16 @@ class SyncRepositoriesUseCaseTest {
     @Test
     fun `execute should map repository models to entities correctly`() = runBlocking {
         // Given
-        val repositoryModels = listOf(
-            RepositoryApiModel("1", "Repo1"),
-            RepositoryApiModel("2", "Repo2"),
-        )
+        val apiModel1 = buildRandomRepoApiModel()
+        val apiModel2 = buildRandomRepoApiModel()
+        val repositoryModels = listOf(apiModel1, apiModel2)
         coEvery { mockGithubApi.fetchRepositories(1, 10) } returns repositoryModels
 
         // When
-        syncRepositoriesUseCase.execute()
+        syncRepositoriesUseCase.execute(1, 10)
 
         // Then
-        val expectedEntities = listOf(
-            RepositoryEntity("1", "Repo1"),
-            RepositoryEntity("2", "Repo2")
-        )
+        val expectedEntities = listOf(apiModel1.toDbModel(), apiModel2.toDbModel())
         coVerify { mockRepositoryDao.insertRepositories(expectedEntities) }
     }
 
@@ -64,7 +60,7 @@ class SyncRepositoriesUseCaseTest {
         coEvery { mockGithubApi.fetchRepositories(1, 10) } throws mockk<HttpException>()
 
         // When
-        val result = syncRepositoriesUseCase.execute()
+        val result = syncRepositoriesUseCase.execute(1, 10)
 
         // Then
         assertTrue(result.isFailure)
@@ -78,7 +74,7 @@ class SyncRepositoriesUseCaseTest {
         coEvery { mockGithubApi.fetchRepositories(1, 10) } throws RuntimeException("Some error")
 
         // When
-        val result = syncRepositoriesUseCase.execute()
+        val result = syncRepositoriesUseCase.execute(1, 10)
 
         // Then
         assertTrue(result.isFailure)
@@ -86,3 +82,11 @@ class SyncRepositoriesUseCaseTest {
         coVerify(exactly = 0) { mockRepositoryDao.insertRepositories(any()) }
     }
 }
+
+private fun buildRandomRepoApiModel() = GithubRepoApiModel(
+    id = (1..100).random().toLong(),
+    name = "Repo${(1..100).random()}",
+    ownerInfo = GithubRepoApiModel.OwnerInfo("http://some_url"),
+    visibility = "public",
+    isPrivate = false
+)

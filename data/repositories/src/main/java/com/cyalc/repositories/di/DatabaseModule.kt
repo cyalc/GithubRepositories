@@ -1,22 +1,17 @@
 package com.cyalc.repositories.di
 
-import android.app.Application
+import android.content.Context
 import androidx.room.Room
-import com.cyalc.repositories.RepositoryDao
-import com.cyalc.repositories.RepositoryDatabase
-import org.koin.dsl.module
+import com.cyalc.repositories.datasource.local.RepositoryDao
+import com.cyalc.repositories.datasource.local.RepositoryDatabase
 
-val databaseModule = module {
-    single { provideDatabase(get()) }
-    single { provideRepositoryDao(get()) }
-}
-
-internal fun provideDatabase(application: Application): RepositoryDatabase = Room
+internal fun provideDatabase(context: Context): RepositoryDatabase = Room
     .databaseBuilder(
-        context = application,
+        context = context,
         klass = RepositoryDatabase::class.java,
         name = "repositories-database"
     )
+    .fallbackToDestructiveMigration()
     .build()
 
 internal fun provideRepositoryDao(database: RepositoryDatabase): RepositoryDao =

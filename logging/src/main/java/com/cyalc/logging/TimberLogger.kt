@@ -10,4 +10,8 @@ internal class TimberLogger : Logger {
     override fun e(message: String, throwable: Throwable?) = Timber.e(message, throwable)
 
     override fun e(throwable: Throwable) = Timber.e(throwable)
+
+    override fun initialize() {
+        Timber.plant(Timber.DebugTree())
+    }
 }
