@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.room)
 }
 
 android {
@@ -31,7 +33,10 @@ android {
     }
     kotlinOptions {
         jvmTarget = "19"
+    }
 
+    room {
+        schemaDirectory("$projectDir/database/schemas")
     }
 }
 
@@ -43,5 +48,5 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     implementation(libs.room)
-    annotationProcessor(libs.room.compiler)
+    ksp(libs.room.compiler)
 }

@@ -12,8 +12,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 
+
 @Composable
-fun HomeScreen(repositories: List<RepositoryUiModel>) {
+fun HomeScreen(repositories: List<RepositoryUiModel>, modifier: Modifier) {
     RepositoryList(items = repositories)
 }
 
@@ -84,7 +85,8 @@ fun RepositoryListPreview() {
                     visibility = false,
                     status = RepositoryUiModel.Status.PRIVATE
                 )
-            )
+            ),
+            modifier = Modifier.padding(8.dp)
         )
     }
 }

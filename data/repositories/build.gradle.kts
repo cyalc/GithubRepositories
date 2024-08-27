@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.room)
 }
 
 android {
@@ -25,13 +27,14 @@ android {
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_19
-
         targetCompatibility = JavaVersion.VERSION_19
-
     }
     kotlinOptions {
         jvmTarget = "19"
+    }
 
+    room {
+        schemaDirectory("$projectDir/repositories/schemas")
     }
 }
 
@@ -47,8 +50,10 @@ dependencies {
     implementation(libs.koin.core)
     implementation(libs.koin.android)
     implementation(libs.retrofit)
+
     implementation(libs.room)
-    annotationProcessor(libs.room.compiler)
+    ksp(libs.room.compiler)
+    implementation(libs.roomKtx)
 
     implementation(project(":core:networking"))
     implementation(project(":core:database"))

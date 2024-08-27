@@ -4,5 +4,5 @@ import com.cyalc.repositories.di.featureRepositoriesModule
 import org.koin.dsl.module
 
 val appModule = module {
-    featureRepositoriesModule
+    includes(featureRepositoriesModule)
 }

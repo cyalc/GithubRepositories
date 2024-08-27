@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.ksp)
     alias(libs.plugins.room)
 }
 
@@ -30,9 +31,7 @@ android {
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_19
-
         targetCompatibility = JavaVersion.VERSION_19
-
     }
 
     kotlinOptions {
@@ -69,6 +68,10 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    implementation(libs.room)
+    ksp(libs.room.compiler)
+    implementation(libs.roomKtx)
 
     testImplementation(libs.mockk)
 
