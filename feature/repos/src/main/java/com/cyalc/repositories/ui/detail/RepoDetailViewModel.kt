@@ -7,13 +7,12 @@ import com.cyalc.repositories.ui.RepoUiModel
 import com.cyalc.repositories.ui.toUiModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 
 class RepoDetailViewModel(
     private val repository: ReposRepository,
 ) : ViewModel() {
+
     private val _repo = MutableStateFlow<RepoUiModel?>(null)
     val repo: StateFlow<RepoUiModel?> = _repo
 

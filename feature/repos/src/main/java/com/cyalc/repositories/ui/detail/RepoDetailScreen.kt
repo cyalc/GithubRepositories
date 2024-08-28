@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
@@ -32,6 +31,7 @@ fun RepoDetailScreen(
     viewModel: RepoDetailViewModel = koinViewModel(),
     id: Long,
     modifier: Modifier,
+    onOpenUrl: (String) -> Unit,
 ) {
     LaunchedEffect(key1 = id) {
         viewModel.loadRepo(id)
@@ -39,12 +39,17 @@ fun RepoDetailScreen(
 
     RepoDetail(
         repoUiModel = viewModel.repo.collectAsState().value,
-        modifier = modifier
+        modifier = modifier,
+        onOpenUrl = onOpenUrl
     )
 }
 
 @Composable
-fun RepoDetail(repoUiModel: RepoUiModel?, modifier: Modifier) {
+fun RepoDetail(
+    repoUiModel: RepoUiModel?,
+    modifier: Modifier,
+    onOpenUrl: (String) -> Unit,
+) =
     repoUiModel?.let { repo ->
         Column(
             modifier = modifier
@@ -93,7 +98,7 @@ fun RepoDetail(repoUiModel: RepoUiModel?, modifier: Modifier) {
 
             repo.htmlUrl?.let { url ->
                 OutlinedButton(
-                    onClick = { /* Implement URL opening logic */ }
+                    onClick = { onOpenUrl(url) },
                 ) {
                     Text("View on GitHub")
                 }
@@ -107,7 +112,6 @@ fun RepoDetail(repoUiModel: RepoUiModel?, modifier: Modifier) {
             Text("Repo could not be found", style = MaterialTheme.typography.bodyMedium)
         }
     }
-}
 
 @Composable
 fun StatusChip(status: RepoUiModel.Status) {

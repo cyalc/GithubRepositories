@@ -20,6 +20,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -27,6 +28,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.cyalc.abnamrogithubrepositories.ui.theme.AppTheme
+import com.cyalc.abnamrogithubrepositories.utils.openInBrowser
 import com.cyalc.repositories.ui.detail.RepoDetailScreen
 import com.cyalc.repositories.ui.home.HomeScreen
 
@@ -80,7 +82,12 @@ class MainActivity : ComponentActivity() {
                             arguments = listOf(navArgument("id") { type = NavType.LongType })
                         ) { backStackEntry ->
                             val id = backStackEntry.arguments?.getLong("id") ?: 0L
-                            RepoDetailScreen(id = id, modifier = Modifier.padding(innerPadding))
+                            val context = LocalContext.current
+                            RepoDetailScreen(
+                                id = id,
+                                modifier = Modifier.padding(innerPadding),
+                                onOpenUrl = { url -> openInBrowser(context, url) }
+                            )
                         }
                     }
                 }

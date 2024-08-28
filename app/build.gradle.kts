@@ -70,6 +70,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.browser)
 
     implementation(libs.room)
     ksp(libs.room.compiler)
@@ -80,7 +81,8 @@ dependencies {
     implementation(platform(libs.koin.bom))
     implementation(libs.koin.core)
     implementation(libs.koin.android)
-    implementation(project(":feature:repos"))
 
+    implementation(project(":feature:repos"))
     implementation(project(":logging"))
+
 }
