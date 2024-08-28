@@ -3,22 +3,21 @@ package com.cyalc.repositories
 import com.cyalc.repositories.datasource.local.RepoDbModel
 import com.cyalc.repositories.datasource.remote.GithubRepoApiModel
 
-internal fun GithubRepoApiModel.toDbModel(): RepoDbModel {
-    return RepoDbModel(
-        id = this.id,
-        name = this.name,
-        ownerAvatarUrl = this.ownerInfo.avatarUrl,
-        visibility = this.visibility,
-        isPrivate = this.isPrivate
-    )
-}
+internal fun GithubRepoApiModel.toDbModel(): RepoDbModel = RepoDbModel(
+    id = id,
+    name = name,
+    ownerAvatarUrl = ownerInfo.avatarUrl,
+    visibility = visibility,
+    isPrivate = isPrivate,
+    description = description,
+    htmlUrl = htmlUrl,
+    fullName = fullName
+)
 
-internal fun RepoDbModel.toDomainModel(): Repository {
-    return Repository(
-        id = this.id,
-        name = this.name,
-        ownerAvatarUrl = this.ownerAvatarUrl,
-        visibility = this.visibility,
-        isPrivate = this.isPrivate
-    )
-}
+internal fun RepoDbModel.toDomainModel(): Repository = Repository(
+    id = id,
+    name = name,
+    ownerAvatarUrl = ownerAvatarUrl,
+    visibility = visibility,
+    isPrivate = isPrivate
+)

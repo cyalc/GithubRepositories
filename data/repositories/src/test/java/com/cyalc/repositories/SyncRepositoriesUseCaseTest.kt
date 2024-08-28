@@ -88,5 +88,8 @@ private fun buildRandomRepoApiModel() = GithubRepoApiModel(
     name = "Repo${(1..100).random()}",
     ownerInfo = GithubRepoApiModel.OwnerInfo("http://some_url"),
     visibility = "public",
-    isPrivate = false
+    isPrivate = false,
+    description = "Some description",
+    htmlUrl = "http://some_url",
+    fullName = "Some full name"
 )
