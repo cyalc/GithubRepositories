@@ -13,9 +13,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.cyalc.abnamrogithubrepositories.ui.theme.AppTheme
 import com.cyalc.repositories.ui.detail.RepoDetailScreen
 import com.cyalc.repositories.ui.home.HomeScreen
@@ -50,9 +52,12 @@ class MainActivity : ComponentActivity() {
                                 navController.navigate("details/$id")
                             }
                         }
-                        composable("details/{id}") { backStackEntry ->
+                        composable(
+                            route = "details/{id}",
+                            arguments = listOf(navArgument("id") { type = NavType.LongType })
+                        ) { backStackEntry ->
                             val id = backStackEntry.arguments?.getLong("id") ?: 0L
-                            RepoDetailScreen(id = id)
+                            RepoDetailScreen(id = id, modifier = Modifier.padding(innerPadding))
                         }
                     }
                 }
