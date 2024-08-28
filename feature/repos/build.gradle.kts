@@ -1,22 +1,17 @@
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
-    alias(libs.plugins.ksp)
-    alias(libs.plugins.room)
 }
 
 android {
-    namespace = "com.cyalc.abnamrogithubrepositories"
+    namespace = "com.cyalc.feature.repositories"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.cyalc.abnamrogithubrepositories"
         minSdk = 24
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -28,29 +23,21 @@ android {
             )
         }
     }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_19
         targetCompatibility = JavaVersion.VERSION_19
     }
-
     kotlinOptions {
         jvmTarget = "19"
 
     }
-
     buildFeatures {
         compose = true
-        buildConfig = true
     }
-
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.15"
     }
 
-    room {
-        schemaDirectory("$projectDir/schemas")
-    }
 }
 
 dependencies {
@@ -69,18 +56,17 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-    implementation(libs.androidx.navigation.compose)
 
-    implementation(libs.room)
-    ksp(libs.room.compiler)
-    implementation(libs.roomKtx)
-
-    testImplementation(libs.mockk)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
 
     implementation(platform(libs.koin.bom))
     implementation(libs.koin.core)
     implementation(libs.koin.android)
-    implementation(project(":feature:repos"))
+    implementation(libs.koin.compose)
 
-    implementation(project(":logging"))
+    implementation(libs.coil)
+
+    implementation(project(":data:repos"))
 }

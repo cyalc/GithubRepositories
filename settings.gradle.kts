@@ -21,8 +21,8 @@ dependencyResolutionManagement {
 
 rootProject.name = "Abn Amro Github Repositories"
 include(":app")
-include(":feature:repositories")
-include(":data:repositories")
+include(":feature:repos")
+include(":data:repos")
 include(":core:networking")
 include(":core:database")
 include(":core:base")
