@@ -1,13 +1,10 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
-    alias(libs.plugins.ksp)
-    alias(libs.plugins.room)
-    alias(libs.plugins.kotlinXSerialization)
 }
 
 android {
-    namespace = "com.cyalc.data.repositories"
+    namespace = "com.cyalc.feature.repositories"
     compileSdk = 34
 
     defaultConfig {
@@ -32,36 +29,42 @@ android {
     }
     kotlinOptions {
         jvmTarget = "19"
+
+    }
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.15"
     }
 
-    room {
-        schemaDirectory("$projectDir/repositories/schemas")
-    }
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.activity.compose)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.ui.graphics)
+    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.material3)
     testImplementation(libs.junit)
-    testImplementation(libs.mockk)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(libs.androidx.ui.test.junit4)
+    debugImplementation(libs.androidx.ui.tooling)
+    debugImplementation(libs.androidx.ui.test.manifest)
+
+    testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
     implementation(platform(libs.koin.bom))
     implementation(libs.koin.core)
     implementation(libs.koin.android)
-    implementation(libs.retrofit)
-    implementation(libs.retrofitKotlinxSerializationConverter)
 
-    implementation(libs.room)
-    ksp(libs.room.compiler)
-    implementation(libs.roomKtx)
-
-    implementation(libs.kotlinxSerializationJson)
-
-    implementation(project(":core:networking"))
-    implementation(project(":core:database"))
-    implementation(project(":core:base"))
-    implementation(project(":logging"))
-
+    implementation(libs.coil)
+    implementation(project(":data:repos"))
 }

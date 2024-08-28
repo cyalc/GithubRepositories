@@ -15,4 +15,4 @@ internal fun provideDatabase(context: Context): RepoDatabase = Room
     .build()
 
 internal fun provideReposDao(database: RepoDatabase): RepoDao =
-    database.repositoryDao()
+    database.repoDao()

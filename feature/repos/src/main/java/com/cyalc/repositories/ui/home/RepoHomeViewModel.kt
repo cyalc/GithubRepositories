@@ -19,17 +19,17 @@ class RepoHomeViewModel(
     repository: ReposRepository,
 ) : ViewModel() {
 
-    private val _repositories = MutableStateFlow<List<RepoUiModel>>(emptyList())
-    val repositories: StateFlow<List<RepoUiModel>> = _repositories
+    private val _repos = MutableStateFlow<List<RepoUiModel>>(emptyList())
+    val repos: StateFlow<List<RepoUiModel>> = _repos
 
     init {
         viewModelScope.launch {
             repository.observeRepos()
-                .map { repositories ->
-                    repositories.map { it.toUiModel() }
+                .map { repos ->
+                    repos.map { it.toUiModel() }
                 }
                 .collect {
-                    _repositories.value = it
+                    _repos.value = it
                 }
         }
 

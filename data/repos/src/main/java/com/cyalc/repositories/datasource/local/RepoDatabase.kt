@@ -8,5 +8,5 @@ import androidx.room.RoomDatabase
     version = 6,
 )
 internal abstract class RepoDatabase : RoomDatabase() {
-    abstract fun repositoryDao(): RepoDao
+    abstract fun repoDao(): RepoDao
 }

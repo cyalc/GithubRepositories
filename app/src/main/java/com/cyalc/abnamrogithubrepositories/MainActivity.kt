@@ -32,7 +32,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val repositories = repoHomeViewModel.repositories.collectAsState()
+            val repos = repoHomeViewModel.repos.collectAsState()
             val navController = rememberNavController()
             AppTheme {
                 Scaffold(
@@ -54,7 +54,7 @@ class MainActivity : ComponentActivity() {
                         composable("home") {
                             HomeScreen(
                                 modifier = Modifier.padding(innerPadding),
-                                repositories = repositories.value,
+                                repos = repos.value,
                             ) { id ->
                                 navController.navigate("details/$id")
                             }

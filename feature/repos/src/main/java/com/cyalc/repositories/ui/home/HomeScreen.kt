@@ -26,21 +26,21 @@ import com.cyalc.repositories.ui.RepoUiModel
 
 
 @Composable
-fun HomeScreen(repositories: List<RepoUiModel>, modifier: Modifier, onItemClicked: (Long) -> Unit) {
-    RepositoryList(items = repositories, modifier = modifier, onItemClicked = onItemClicked)
+fun HomeScreen(repos: List<RepoUiModel>, modifier: Modifier, onItemClicked: (Long) -> Unit) {
+    RepoList(items = repos, modifier = modifier, onItemClicked = onItemClicked)
 }
 
 @Composable
-fun RepositoryList(items: List<RepoUiModel>, modifier: Modifier, onItemClicked: (Long) -> Unit) {
+fun RepoList(items: List<RepoUiModel>, modifier: Modifier, onItemClicked: (Long) -> Unit) {
     LazyColumn(modifier = modifier) {
         items(items, key = { it.id }) { item ->
-            RepositoryItem(item, onItemClicked)
+            RepoItem(item, onItemClicked)
         }
     }
 }
 
 @Composable
-fun RepositoryItem(item: RepoUiModel, onItemClicked: (Long) -> Unit) {
+fun RepoItem(item: RepoUiModel, onItemClicked: (Long) -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -83,10 +83,10 @@ fun RepositoryItem(item: RepoUiModel, onItemClicked: (Long) -> Unit) {
 
 @Preview(showBackground = true)
 @Composable
-fun RepositoryListPreview() {
+fun RepoListPreview() {
     MaterialTheme {
         HomeScreen(
-            repositories = listOf(
+            repos = listOf(
                 RepoUiModel(
                     id = 1,
                     name = "Repository 1",
