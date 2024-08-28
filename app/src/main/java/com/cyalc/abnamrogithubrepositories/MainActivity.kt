@@ -19,20 +19,20 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.cyalc.abnamrogithubrepositories.ui.theme.AppTheme
 import com.cyalc.repositories.ui.detail.RepoDetailScreen
-import com.cyalc.repositories.ui.home.RepositoryListViewModel
+import com.cyalc.repositories.ui.home.RepoHomeViewModel
 import com.cyalc.repositories.ui.home.HomeScreen
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 class MainActivity : ComponentActivity() {
 
-    private val repositoryListViewModel: RepositoryListViewModel by viewModel()
+    private val repoHomeViewModel: RepoHomeViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val repositories = repositoryListViewModel.repositories.collectAsState()
+            val repositories = repoHomeViewModel.repositories.collectAsState()
             val navController = rememberNavController()
             AppTheme {
                 Scaffold(

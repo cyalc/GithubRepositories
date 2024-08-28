@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 private const val PAGE_SIZE = 20
 
 
-class RepositoryListViewModel(
+class RepoHomeViewModel(
     syncRepositoriesUseCase: SyncRepositoriesUseCase,
     repository: RepositoryRepository,
 ) : ViewModel() {
