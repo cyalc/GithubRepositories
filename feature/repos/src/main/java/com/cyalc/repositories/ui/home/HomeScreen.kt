@@ -15,6 +15,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -23,11 +24,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.cyalc.repositories.ui.RepoUiModel
+import org.koin.androidx.compose.koinViewModel
 
 
 @Composable
-fun HomeScreen(repos: List<RepoUiModel>, modifier: Modifier, onItemClicked: (Long) -> Unit) {
-    RepoList(items = repos, modifier = modifier, onItemClicked = onItemClicked)
+fun HomeScreen(
+    viewModel: RepoHomeViewModel = koinViewModel(),
+    modifier: Modifier,
+    onItemClicked: (Long) -> Unit,
+) {
+    RepoList(
+        items = viewModel.repos.collectAsState().value,
+        modifier = modifier,
+        onItemClicked = onItemClicked
+    )
 }
 
 @Composable
@@ -86,28 +96,6 @@ fun RepoItem(item: RepoUiModel, onItemClicked: (Long) -> Unit) {
 fun RepoListPreview() {
     MaterialTheme {
         HomeScreen(
-            repos = listOf(
-                RepoUiModel(
-                    id = 1,
-                    name = "Repository 1",
-                    ownerAvatarUrl = "https://avatars.githubusercontent.com/u/1",
-                    visibility = true,
-                    status = RepoUiModel.Status.PUBLIC,
-                    fullName = "Repository 1",
-                    description = "Description 1",
-                    htmlUrl = ""
-                ),
-                RepoUiModel(
-                    id = 2,
-                    name = "Repository 2",
-                    ownerAvatarUrl = "https://avatars.githubusercontent.com/u/2",
-                    visibility = false,
-                    status = RepoUiModel.Status.PRIVATE,
-                    fullName = "Repository 2",
-                    description = "Description 2",
-                    htmlUrl = ""
-                )
-            ),
             modifier = Modifier.padding(8.dp)
         ) {
             // no-op

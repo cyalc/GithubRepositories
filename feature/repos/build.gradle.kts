@@ -64,7 +64,9 @@ dependencies {
     implementation(platform(libs.koin.bom))
     implementation(libs.koin.core)
     implementation(libs.koin.android)
+    implementation(libs.koin.compose)
 
     implementation(libs.coil)
+
     implementation(project(":data:repos"))
 }

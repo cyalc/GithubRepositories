@@ -12,27 +12,21 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.cyalc.abnamrogithubrepositories.ui.theme.AppTheme
 import com.cyalc.repositories.ui.detail.RepoDetailScreen
-import com.cyalc.repositories.ui.home.RepoHomeViewModel
 import com.cyalc.repositories.ui.home.HomeScreen
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 class MainActivity : ComponentActivity() {
-
-    private val repoHomeViewModel: RepoHomeViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val repos = repoHomeViewModel.repos.collectAsState()
             val navController = rememberNavController()
             AppTheme {
                 Scaffold(
@@ -52,10 +46,7 @@ class MainActivity : ComponentActivity() {
                 ) { innerPadding ->
                     NavHost(navController = navController, startDestination = "home") {
                         composable("home") {
-                            HomeScreen(
-                                modifier = Modifier.padding(innerPadding),
-                                repos = repos.value,
-                            ) { id ->
+                            HomeScreen(modifier = Modifier.padding(innerPadding)) { id ->
                                 navController.navigate("details/$id")
                             }
                         }
