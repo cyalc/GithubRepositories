@@ -14,6 +14,9 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.cyalc.abnamrogithubrepositories.ui.theme.AppTheme
 import com.cyalc.repositories.RepositoryListViewModel
 import com.cyalc.repositories.ui.HomeScreen
@@ -29,6 +32,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val repositories = repositoryListViewModel.repositories.collectAsState()
+            val navController = rememberNavController()
             AppTheme {
                 Scaffold(
                     topBar = {
@@ -45,10 +49,17 @@ class MainActivity : ComponentActivity() {
                     },
                     modifier = Modifier.fillMaxSize()
                 ) { innerPadding ->
-                    HomeScreen(
-                        modifier = Modifier.padding(innerPadding),
-                        repositories = repositories.value
-                    )
+                    NavHost(navController = navController, startDestination = "home") {
+                        composable("home") {
+                            HomeScreen(
+                                modifier = Modifier.padding(innerPadding),
+                                repositories = repositories.value,
+                            ) { id ->
+                                navController.navigate("details/$id")
+                            }
+                        }
+
+                    }
                 }
             }
         }
