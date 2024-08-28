@@ -92,14 +92,20 @@ fun RepositoryListPreview() {
                     name = "Repository 1",
                     ownerAvatarUrl = "https://avatars.githubusercontent.com/u/1",
                     visibility = true,
-                    status = RepoUiModel.Status.PUBLIC
+                    status = RepoUiModel.Status.PUBLIC,
+                    fullName = "Repository 1",
+                    description = "Description 1",
+                    htmlUrl = ""
                 ),
                 RepoUiModel(
                     id = 2,
                     name = "Repository 2",
                     ownerAvatarUrl = "https://avatars.githubusercontent.com/u/2",
                     visibility = false,
-                    status = RepoUiModel.Status.PRIVATE
+                    status = RepoUiModel.Status.PRIVATE,
+                    fullName = "Repository 2",
+                    description = "Description 2",
+                    htmlUrl = ""
                 )
             ),
             modifier = Modifier.padding(8.dp)
