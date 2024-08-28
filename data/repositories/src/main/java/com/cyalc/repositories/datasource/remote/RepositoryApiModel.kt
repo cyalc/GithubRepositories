@@ -7,6 +7,11 @@ import kotlinx.serialization.Serializable
 internal data class GithubRepoApiModel(
     val id: Long,
     val name: String,
+    @SerialName("full_name")
+    val fullName: String,
+    val description: String?,
+    @SerialName("html_url")
+    val htmlUrl: String,
     @SerialName("owner")
     val ownerInfo: OwnerInfo,
     val visibility: String,
