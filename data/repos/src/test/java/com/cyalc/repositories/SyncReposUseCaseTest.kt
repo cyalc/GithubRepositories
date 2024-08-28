@@ -7,10 +7,13 @@ import com.cyalc.repositories.datasource.remote.RepoApiModel
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
+import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.runBlocking
+import okhttp3.Headers
 import org.junit.Test
 import retrofit2.HttpException
+import retrofit2.Response
 
 class SyncReposUseCaseTest {
 
@@ -21,22 +24,58 @@ class SyncReposUseCaseTest {
         SyncReposUseCaseImpl(mockGithubApi, mockRepoDao, mockLogger)
 
     @Test
-    fun `execute should return success when API call and database insertion succeed`() =
-        runBlocking {
-            // Given
-            val repositoryModels = listOf(
-                buildRandomRepoApiModel(),
-                buildRandomRepoApiModel(),
-            )
-            coEvery { mockGithubApi.fetchRepositories(1, 10) } returns repositoryModels
+    fun `execute should return success with hasMore true when Link header contains next`() = runBlocking {
+        // Given
+        val repositoryModels = listOf(buildRandomRepoApiModel(), buildRandomRepoApiModel())
 
-            // When
-            val result = syncRepositoriesUseCase.execute(1, 10)
+        val headers = Headers.of("Link", "<https://api.github.com/user/repos?page=2>; rel=\"next\"")
+        val response = Response.success(repositoryModels, headers)
+        coEvery { mockGithubApi.fetchRepositories(1, 10) } returns response
 
-            // Then
-            assertTrue(result.isSuccess)
-            coVerify { mockRepoDao.insertRepos(any()) }
-        }
+        // When
+        val result = syncRepositoriesUseCase.execute(1, 10)
+
+        // Then
+        assertTrue(result.isSuccess)
+        val pagingInfo = result.getOrNull()
+        assertTrue(pagingInfo?.hasMore == true)
+        coVerify { mockRepoDao.insertRepos(any()) }
+    }
+
+    @Test
+    fun `execute should return success with hasMore false when Link header does not contain next`() = runBlocking {
+        // Given
+        val repositoryModels = listOf(buildRandomRepoApiModel(), buildRandomRepoApiModel())
+        val headers = Headers.of("Link", "<https://api.github.com/user/repos?page=1>; rel=\"prev\"")
+        val response = Response.success(repositoryModels, headers)
+        coEvery { mockGithubApi.fetchRepositories(1, 10) } returns response
+
+        // When
+        val result = syncRepositoriesUseCase.execute(1, 10)
+
+        // Then
+        assertTrue(result.isSuccess)
+        val pagingInfo = result.getOrNull()
+        assertFalse(pagingInfo?.hasMore == true)
+        coVerify { mockRepoDao.insertRepos(any()) }
+    }
+
+    @Test
+    fun `execute should return success with hasMore false when Link header is missing`() = runBlocking {
+        // Given
+        val repositoryModels = listOf(buildRandomRepoApiModel(), buildRandomRepoApiModel())
+        val response = Response.success(repositoryModels)
+        coEvery { mockGithubApi.fetchRepositories(1, 10) } returns response
+
+        // When
+        val result = syncRepositoriesUseCase.execute(1, 10)
+
+        // Then
+        assertTrue(result.isSuccess)
+        val pagingInfo = result.getOrNull()
+        assertFalse(pagingInfo?.hasMore == true)
+        coVerify { mockRepoDao.insertRepos(any()) }
+    }
 
     @Test
     fun `execute should map repository models to entities correctly`() = runBlocking {
@@ -44,7 +83,8 @@ class SyncReposUseCaseTest {
         val apiModel1 = buildRandomRepoApiModel()
         val apiModel2 = buildRandomRepoApiModel()
         val repositoryModels = listOf(apiModel1, apiModel2)
-        coEvery { mockGithubApi.fetchRepositories(1, 10) } returns repositoryModels
+        val response = Response.success(repositoryModels)
+        coEvery { mockGithubApi.fetchRepositories(1, 10) } returns response
 
         // When
         syncRepositoriesUseCase.execute(1, 10)
