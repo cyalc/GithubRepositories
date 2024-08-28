@@ -2,6 +2,7 @@ package com.cyalc.repositories.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.cyalc.connectivity.ConnectivityObserver
 import com.cyalc.repositories.ReposRepository
 import com.cyalc.repositories.SyncReposUseCase
 import com.cyalc.repositories.ui.RepoUiModel
@@ -12,10 +13,12 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 private const val PAGE_SIZE = 10
+private const val INITIAL_PAGE = 1
 
 class RepoHomeViewModel(
     private val syncRepositoriesUseCase: SyncReposUseCase,
     private val repository: ReposRepository,
+    private val connectivityObserver: ConnectivityObserver,
 ) : ViewModel() {
 
     private val _repos = MutableStateFlow<List<RepoUiModel>>(emptyList())
@@ -24,12 +27,15 @@ class RepoHomeViewModel(
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading
 
-    private var currentPage = 1
+    private var currentPage = INITIAL_PAGE
     private var hasMoreItems = true
+
+    private var isOffline = false
 
     init {
         observeRepos()
         loadNextPage()
+        observeConnectivity()
     }
 
     internal fun loadNextPage() {
@@ -37,6 +43,10 @@ class RepoHomeViewModel(
 
         viewModelScope.launch {
             _isLoading.value = true
+
+            if (currentPage == INITIAL_PAGE) {
+                repository.clearRepos()
+            }
 
             val result = syncRepositoriesUseCase.execute(
                 page = currentPage,
@@ -67,5 +77,26 @@ class RepoHomeViewModel(
                     _repos.value = it
                 }
         }
+    }
+
+    private fun observeConnectivity() {
+        viewModelScope.launch {
+            connectivityObserver.observe()
+                .collect { status ->
+                    val wasOffline = isOffline
+                    val isNowOnline = status == ConnectivityObserver.Status.Available
+
+                    if (wasOffline && isNowOnline) {
+                        refreshRepos()
+                    }
+                    isOffline = !isNowOnline
+                }
+        }
+    }
+
+    private fun refreshRepos() {
+        currentPage = INITIAL_PAGE
+        hasMoreItems = true
+        loadNextPage()
     }
 }

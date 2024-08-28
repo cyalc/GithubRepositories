@@ -17,6 +17,8 @@ retrofit = "2.11.0"
 kotlinxSerializationJson = "1.6.3"
 navCompose = "2.7.7"
 browser = "1.8.0"
+appcompat = "1.7.0"
+material = "1.12.0"
 
 
 [libraries]
@@ -54,6 +56,8 @@ koin-compose = { module = "io.insert-koin:koin-androidx-compose" }
 mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 
 

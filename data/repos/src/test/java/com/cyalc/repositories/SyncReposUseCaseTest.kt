@@ -39,7 +39,7 @@ class SyncReposUseCaseTest {
         assertTrue(result.isSuccess)
         val pagingInfo = result.getOrNull()
         assertTrue(pagingInfo?.hasMore == true)
-        coVerify { mockRepoDao.insertRepos(any()) }
+        coVerify { mockRepoDao.insert(any()) }
     }
 
     @Test
@@ -57,7 +57,7 @@ class SyncReposUseCaseTest {
         assertTrue(result.isSuccess)
         val pagingInfo = result.getOrNull()
         assertFalse(pagingInfo?.hasMore == true)
-        coVerify { mockRepoDao.insertRepos(any()) }
+        coVerify { mockRepoDao.insert(any()) }
     }
 
     @Test
@@ -74,7 +74,7 @@ class SyncReposUseCaseTest {
         assertTrue(result.isSuccess)
         val pagingInfo = result.getOrNull()
         assertFalse(pagingInfo?.hasMore == true)
-        coVerify { mockRepoDao.insertRepos(any()) }
+        coVerify { mockRepoDao.insert(any()) }
     }
 
     @Test
@@ -91,7 +91,7 @@ class SyncReposUseCaseTest {
 
         // Then
         val expectedEntities = listOf(apiModel1.toDbModel(), apiModel2.toDbModel())
-        coVerify { mockRepoDao.insertRepos(expectedEntities) }
+        coVerify { mockRepoDao.insert(expectedEntities) }
     }
 
     @Test
@@ -105,7 +105,7 @@ class SyncReposUseCaseTest {
         // Then
         assertTrue(result.isFailure)
         assertTrue(result.exceptionOrNull() is HttpException)
-        coVerify(exactly = 0) { mockRepoDao.insertRepos(any()) }
+        coVerify(exactly = 0) { mockRepoDao.insert(any()) }
     }
 
     @Test
@@ -119,7 +119,7 @@ class SyncReposUseCaseTest {
         // Then
         assertTrue(result.isFailure)
         assertTrue(result.exceptionOrNull() is RuntimeException)
-        coVerify(exactly = 0) { mockRepoDao.insertRepos(any()) }
+        coVerify(exactly = 0) { mockRepoDao.insert(any()) }
     }
 }
 

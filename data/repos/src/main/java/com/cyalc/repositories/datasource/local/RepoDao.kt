@@ -9,11 +9,14 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 internal interface RepoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertRepos(repos: List<RepoDbModel>)
+    suspend fun insert(repos: List<RepoDbModel>)
 
     @Query("SELECT * FROM repositories")
-    fun loadRepos(): Flow<List<RepoDbModel>>
+    fun loadAll(): Flow<List<RepoDbModel>>
 
     @Query("SELECT * FROM repositories WHERE id=:id")
-    fun loadRepo(id: Long) : Flow<RepoDbModel>
+    fun load(id: Long): Flow<RepoDbModel>
+
+    @Query("DELETE FROM repositories")
+    suspend fun deleteAll()
 }
