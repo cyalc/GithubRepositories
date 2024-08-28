@@ -18,7 +18,7 @@ internal class SyncReposUseCaseImpl(
 
         if (response.isSuccessful) {
             val repositories = response.body() ?: emptyList()
-            repoDao.insertRepos(repositories.map { it.toDbModel() })
+            repoDao.insert(repositories.map { it.toDbModel() })
 
             val linkHeader = response.headers()["Link"]
             val hasMore = linkHeader?.contains("rel=\"next\"") ?: false

@@ -69,4 +69,5 @@ dependencies {
     implementation(libs.coil)
 
     implementation(project(":data:repos"))
+    implementation(project(":connectivity"))
 }
