@@ -8,5 +8,5 @@ internal interface GithubApi {
     suspend fun fetchRepositories(
         @Query("page") page: Int,
         @Query("per_page") size: Int,
-    ): List<GithubRepoApiModel>
+    ): List<RepoApiModel>
 }

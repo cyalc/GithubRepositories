@@ -1,9 +1,9 @@
 package com.cyalc.repositories
 
 import com.cyalc.logging.Logger
-import com.cyalc.repositories.datasource.local.RepositoryDao
+import com.cyalc.repositories.datasource.local.RepoDao
 import com.cyalc.repositories.datasource.remote.GithubApi
-import com.cyalc.repositories.datasource.remote.GithubRepoApiModel
+import com.cyalc.repositories.datasource.remote.RepoApiModel
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -12,13 +12,13 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import retrofit2.HttpException
 
-class SyncRepositoriesUseCaseTest {
+class SyncReposUseCaseTest {
 
     private val mockGithubApi = mockk<GithubApi>()
-    private val mockRepositoryDao = mockk<RepositoryDao>(relaxUnitFun = true)
+    private val mockRepoDao = mockk<RepoDao>(relaxUnitFun = true)
     private val mockLogger = mockk<Logger>(relaxUnitFun = true)
     private val syncRepositoriesUseCase =
-        SyncRepositoriesUseCaseImpl(mockGithubApi, mockRepositoryDao, mockLogger)
+        SyncReposUseCaseImpl(mockGithubApi, mockRepoDao, mockLogger)
 
     @Test
     fun `execute should return success when API call and database insertion succeed`() =
@@ -35,7 +35,7 @@ class SyncRepositoriesUseCaseTest {
 
             // Then
             assertTrue(result.isSuccess)
-            coVerify { mockRepositoryDao.insertRepositories(any()) }
+            coVerify { mockRepoDao.insertRepos(any()) }
         }
 
     @Test
@@ -51,7 +51,7 @@ class SyncRepositoriesUseCaseTest {
 
         // Then
         val expectedEntities = listOf(apiModel1.toDbModel(), apiModel2.toDbModel())
-        coVerify { mockRepositoryDao.insertRepositories(expectedEntities) }
+        coVerify { mockRepoDao.insertRepos(expectedEntities) }
     }
 
     @Test
@@ -65,7 +65,7 @@ class SyncRepositoriesUseCaseTest {
         // Then
         assertTrue(result.isFailure)
         assertTrue(result.exceptionOrNull() is HttpException)
-        coVerify(exactly = 0) { mockRepositoryDao.insertRepositories(any()) }
+        coVerify(exactly = 0) { mockRepoDao.insertRepos(any()) }
     }
 
     @Test
@@ -79,14 +79,14 @@ class SyncRepositoriesUseCaseTest {
         // Then
         assertTrue(result.isFailure)
         assertTrue(result.exceptionOrNull() is RuntimeException)
-        coVerify(exactly = 0) { mockRepositoryDao.insertRepositories(any()) }
+        coVerify(exactly = 0) { mockRepoDao.insertRepos(any()) }
     }
 }
 
-private fun buildRandomRepoApiModel() = GithubRepoApiModel(
+private fun buildRandomRepoApiModel() = RepoApiModel(
     id = (1..100).random().toLong(),
     name = "Repo${(1..100).random()}",
-    ownerInfo = GithubRepoApiModel.OwnerInfo("http://some_url"),
+    ownerInfo = RepoApiModel.OwnerInfo("http://some_url"),
     visibility = "public",
     isPrivate = false,
     description = "Some description",

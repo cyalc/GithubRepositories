@@ -7,10 +7,10 @@ import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-internal interface RepositoryDao {
+internal interface RepoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertRepositories(repositories: List<RepoDbModel>)
+    suspend fun insertRepos(repos: List<RepoDbModel>)
 
     @Query("SELECT * FROM repositories")
-    fun loadRepositories(): Flow<List<RepoDbModel>>
+    fun loadRepos(): Flow<List<RepoDbModel>>
 }

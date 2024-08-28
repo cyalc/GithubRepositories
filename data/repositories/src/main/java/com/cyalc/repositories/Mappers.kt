@@ -1,9 +1,9 @@
 package com.cyalc.repositories
 
 import com.cyalc.repositories.datasource.local.RepoDbModel
-import com.cyalc.repositories.datasource.remote.GithubRepoApiModel
+import com.cyalc.repositories.datasource.remote.RepoApiModel
 
-internal fun GithubRepoApiModel.toDbModel(): RepoDbModel = RepoDbModel(
+internal fun RepoApiModel.toDbModel(): RepoDbModel = RepoDbModel(
     id = id,
     name = name,
     ownerAvatarUrl = ownerInfo.avatarUrl,
@@ -14,7 +14,7 @@ internal fun GithubRepoApiModel.toDbModel(): RepoDbModel = RepoDbModel(
     fullName = fullName
 )
 
-internal fun RepoDbModel.toDomainModel(): Repository = Repository(
+internal fun RepoDbModel.toDomainModel(): Repo = Repo(
     id = id,
     name = name,
     fullName = fullName,

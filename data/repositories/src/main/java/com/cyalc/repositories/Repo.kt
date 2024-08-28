@@ -1,6 +1,6 @@
 package com.cyalc.repositories
 
-data class Repository(
+data class Repo(
     val id: Long,
     val name: String,
     val fullName: String,

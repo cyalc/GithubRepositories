@@ -1,8 +1,8 @@
 package com.cyalc.repositories.ui
 
-import com.cyalc.repositories.Repository
+import com.cyalc.repositories.Repo
 
-fun Repository.toUiModel(): RepoUiModel = RepoUiModel(
+fun Repo.toUiModel(): RepoUiModel = RepoUiModel(
     id = id,
     name = name,
     fullName = fullName,

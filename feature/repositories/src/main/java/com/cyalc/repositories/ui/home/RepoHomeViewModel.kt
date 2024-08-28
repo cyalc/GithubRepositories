@@ -2,8 +2,8 @@ package com.cyalc.repositories.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cyalc.repositories.RepositoryRepository
-import com.cyalc.repositories.SyncRepositoriesUseCase
+import com.cyalc.repositories.ReposRepository
+import com.cyalc.repositories.SyncReposUseCase
 import com.cyalc.repositories.ui.RepoUiModel
 import com.cyalc.repositories.ui.toUiModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,8 +15,8 @@ private const val PAGE_SIZE = 20
 
 
 class RepoHomeViewModel(
-    syncRepositoriesUseCase: SyncRepositoriesUseCase,
-    repository: RepositoryRepository,
+    syncRepositoriesUseCase: SyncReposUseCase,
+    repository: ReposRepository,
 ) : ViewModel() {
 
     private val _repositories = MutableStateFlow<List<RepoUiModel>>(emptyList())
@@ -24,7 +24,7 @@ class RepoHomeViewModel(
 
     init {
         viewModelScope.launch {
-            repository.observeRepositories()
+            repository.observeRepos()
                 .map { repositories ->
                     repositories.map { it.toUiModel() }
                 }

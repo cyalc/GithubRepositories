@@ -2,17 +2,17 @@ package com.cyalc.repositories.di
 
 import android.content.Context
 import androidx.room.Room
-import com.cyalc.repositories.datasource.local.RepositoryDao
-import com.cyalc.repositories.datasource.local.RepositoryDatabase
+import com.cyalc.repositories.datasource.local.RepoDao
+import com.cyalc.repositories.datasource.local.RepoDatabase
 
-internal fun provideDatabase(context: Context): RepositoryDatabase = Room
+internal fun provideDatabase(context: Context): RepoDatabase = Room
     .databaseBuilder(
         context = context,
-        klass = RepositoryDatabase::class.java,
+        klass = RepoDatabase::class.java,
         name = "repositories-database"
     )
     .fallbackToDestructiveMigration()
     .build()
 
-internal fun provideRepositoryDao(database: RepositoryDatabase): RepositoryDao =
+internal fun provideReposDao(database: RepoDatabase): RepoDao =
     database.repositoryDao()

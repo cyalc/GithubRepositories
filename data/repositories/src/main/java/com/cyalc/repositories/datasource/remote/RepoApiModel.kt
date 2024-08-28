@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class GithubRepoApiModel(
+internal data class RepoApiModel(
     val id: Long,
     val name: String,
     @SerialName("full_name")
