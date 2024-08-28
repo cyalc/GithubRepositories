@@ -1,4 +1,4 @@
-package com.cyalc.repositories.ui
+package com.cyalc.repositories.ui.home
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -22,6 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.cyalc.repositories.ui.RepoUiModel
 
 
 @Composable

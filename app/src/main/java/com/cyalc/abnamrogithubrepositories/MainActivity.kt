@@ -18,8 +18,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.cyalc.abnamrogithubrepositories.ui.theme.AppTheme
-import com.cyalc.repositories.RepositoryListViewModel
-import com.cyalc.repositories.ui.HomeScreen
+import com.cyalc.repositories.ui.detail.RepoDetailScreen
+import com.cyalc.repositories.ui.home.RepositoryListViewModel
+import com.cyalc.repositories.ui.home.HomeScreen
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -58,7 +59,10 @@ class MainActivity : ComponentActivity() {
                                 navController.navigate("details/$id")
                             }
                         }
-
+                        composable("details/{id}") { backStackEntry ->
+                            val id = backStackEntry.arguments?.getLong("id") ?: 0L
+                            RepoDetailScreen(id = id)
+                        }
                     }
                 }
             }

@@ -1,7 +1,9 @@
-package com.cyalc.repositories
+package com.cyalc.repositories.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.cyalc.repositories.RepositoryRepository
+import com.cyalc.repositories.SyncRepositoriesUseCase
 import com.cyalc.repositories.ui.RepoUiModel
 import com.cyalc.repositories.ui.toUiModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -10,6 +12,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 private const val PAGE_SIZE = 20
+
 
 class RepositoryListViewModel(
     syncRepositoriesUseCase: SyncRepositoriesUseCase,
