@@ -11,8 +11,13 @@ internal class ReposRepositoryImpl(
         .map {
             it.map { repositoryDbModel -> repositoryDbModel.toDomainModel() }
         }
+
+    override fun observeRepo(id: Long): Flow<Repo> =
+        repoDao.loadRepo(id).map { it.toDomainModel() }
 }
 
 interface ReposRepository {
     fun observeRepos(): Flow<List<Repo>>
+
+    fun observeRepo(id: Long): Flow<Repo>
 }

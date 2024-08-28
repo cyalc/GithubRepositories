@@ -13,4 +13,7 @@ internal interface RepoDao {
 
     @Query("SELECT * FROM repositories")
     fun loadRepos(): Flow<List<RepoDbModel>>
+
+    @Query("SELECT * FROM repositories WHERE id=:id")
+    fun loadRepo(id: Long) : Flow<RepoDbModel>
 }
