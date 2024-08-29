@@ -16,6 +16,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -37,11 +38,19 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun HomeScreen(
     viewModel: RepoHomeViewModel = koinViewModel(),
+    snackbarHostState: SnackbarHostState,
     modifier: Modifier,
     onItemClicked: (Long) -> Unit,
 ) {
     val repos by viewModel.repos.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
+    val isError by viewModel.isError.collectAsState()
+
+    LaunchedEffect(isError) {
+        if (isError) {
+            snackbarHostState.showSnackbar("An error occurred")
+        }
+    }
 
     RepoList(
         items = repos,
@@ -138,11 +147,7 @@ fun RepoItem(item: RepoUiModel, onItemClicked: (Long) -> Unit) {
 @Composable
 fun RepoListPreview() {
     MaterialTheme {
-        HomeScreen(
-            modifier = Modifier.padding(8.dp)
-        ) {
-            // no-op
-        }
+
     }
 }
 

@@ -27,6 +27,9 @@ class RepoHomeViewModel(
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading
 
+    private val _isError = MutableStateFlow(false)
+    val isError: StateFlow<Boolean> = _isError
+
     private var currentPage = INITIAL_PAGE
     private var hasMoreItems = true
 
@@ -57,10 +60,11 @@ class RepoHomeViewModel(
                 .onSuccess { pagingInfo ->
                     hasMoreItems = pagingInfo.hasMore
                     if (hasMoreItems) currentPage++
+                    _isError.value = false
                 }
                 .onFailure { exception ->
-                    // TODO: handle error
                     hasMoreItems = false
+                    _isError.value = true
                 }
 
             _isLoading.value = false
