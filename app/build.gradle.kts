@@ -72,6 +72,8 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.browser)
 
+    implementation(libs.coroutines)
+
     implementation(libs.room)
     ksp(libs.room.compiler)
     implementation(libs.roomKtx)

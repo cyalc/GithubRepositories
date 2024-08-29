@@ -71,19 +71,7 @@ class RepoHomeViewModel(
         }
     }
 
-    private fun observeRepos() {
-        viewModelScope.launch {
-            repository.observeRepos()
-                .map { repos ->
-                    repos.map { it.toUiModel() }
-                }
-                .collect {
-                    _repos.value = it
-                }
-        }
-    }
-
-    private fun observeConnectivity() {
+    internal fun observeConnectivity() {
         viewModelScope.launch {
             connectivityObserver.observe()
                 .collect { status ->
@@ -94,6 +82,18 @@ class RepoHomeViewModel(
                         refreshRepos()
                     }
                     isOffline = !isNowOnline
+                }
+        }
+    }
+
+    private fun observeRepos() {
+        viewModelScope.launch {
+            repository.observeRepos()
+                .map { repos ->
+                    repos.map { it.toUiModel() }
+                }
+                .collect {
+                    _repos.value = it
                 }
         }
     }

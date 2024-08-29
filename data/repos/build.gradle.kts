@@ -57,11 +57,10 @@ dependencies {
     ksp(libs.room.compiler)
     implementation(libs.roomKtx)
 
+    implementation(libs.coroutines)
+    testImplementation(libs.coroutines.test)
+
     implementation(libs.kotlinxSerializationJson)
 
-    implementation(project(":core:networking"))
-    implementation(project(":core:database"))
-    implementation(project(":core:base"))
     implementation(project(":logging"))
-
 }
