@@ -23,7 +23,6 @@ RepoApiModel is the model used to represent repositories from the GitHub API.
 Repo is the domain mode
 RepoUiModel is the model used to represent repositories in the UI.
 
-
 ## Testing
 Unit tests for the `SyncReposUseCase` is in the `test` directory of the `:data:repos` module.
 Unit tests for the `RepoListViewModel` and `RepoDetailsViewModel` classes are located  `test` directory of the `:feature:repos` module.
@@ -39,3 +38,19 @@ Unit tests for the `RepoListViewModel` and `RepoDetailsViewModel` classes are lo
 - Android Studio
 - Kotlin 1.9.20 or higher
 - Java 19
+
+### CI/CD
+- Github Actions is used for CI/CD. The workflow is defined in `.github/workflows/pull_request.yml`. It runs the unit tests.
+
+### TO-DO
+- [ ] Add UI tests
+- [ ] Inject Dispatchers
+- [ ] Get strings from resources
+- [ ] Add turbine for easier testing
+- [ ] Add more error handling
+- [ ] Test configuration changes and process death
+- [ ] Add ktlint (also to ci)
+- [ ] Add scopes to koin modules
+- [ ] Simplify and reuse gradle files
+- [ ] Add baseline profiles
+
