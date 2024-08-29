@@ -13,7 +13,6 @@ internal class SyncReposUseCaseImpl(
 ) : SyncReposUseCase {
 
     override suspend fun execute(page: Int, size: Int): Result<PagingInfo> = try {
-
         val response = githubApi.fetchRepositories(page, size)
 
         if (response.isSuccessful) {

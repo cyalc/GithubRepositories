@@ -13,6 +13,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
@@ -44,9 +46,11 @@ class MainActivity : ComponentActivity() {
             val showBackArrow by remember(currentBackStackEntry) {
                 mutableStateOf(navController.previousBackStackEntry != null)
             }
+            val snackbarHostState = remember { SnackbarHostState() }
 
             AppTheme {
                 Scaffold(
+                    snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
                     topBar = {
                         TopAppBar(
                             colors = topAppBarColors(
@@ -73,7 +77,10 @@ class MainActivity : ComponentActivity() {
                 ) { innerPadding ->
                     NavHost(navController = navController, startDestination = "home") {
                         composable("home") {
-                            HomeScreen(modifier = Modifier.padding(innerPadding)) { id ->
+                            HomeScreen(
+                                modifier = Modifier.padding(innerPadding),
+                                snackbarHostState = snackbarHostState
+                            ) { id ->
                                 navController.navigate("details/$id")
                             }
                         }
