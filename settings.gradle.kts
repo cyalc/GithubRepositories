@@ -23,8 +23,5 @@ rootProject.name = "Abn Amro Github Repositories"
 include(":app")
 include(":feature:repos")
 include(":data:repos")
-include(":core:networking")
-include(":core:database")
-include(":core:base")
 include(":logging")
 include(":connectivity")

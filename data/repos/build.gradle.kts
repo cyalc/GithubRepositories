@@ -59,9 +59,5 @@ dependencies {
 
     implementation(libs.kotlinxSerializationJson)
 
-    implementation(project(":core:networking"))
-    implementation(project(":core:database"))
-    implementation(project(":core:base"))
     implementation(project(":logging"))
-
 }
