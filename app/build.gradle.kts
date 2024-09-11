@@ -52,6 +52,12 @@ android {
     room {
         schemaDirectory("$projectDir/schemas")
     }
+
+    spotless {
+        kotlin {
+            ktlint("1.3.1")
+        }
+    }
 }
 
 dependencies {
