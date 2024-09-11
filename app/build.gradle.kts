@@ -55,7 +55,8 @@ android {
 
     spotless {
         kotlin {
-            ktlint("1.3.1")
+            target("src/**/*.kt")
+            ktlint()
         }
     }
 }
