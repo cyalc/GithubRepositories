@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.room)
+    alias(libs.plugins.spotless)
 }
 
 android {
@@ -50,6 +51,13 @@ android {
 
     room {
         schemaDirectory("$projectDir/schemas")
+    }
+
+    spotless {
+        kotlin {
+            target("src/**/*.kt")
+            ktlint()
+        }
     }
 }
 
