@@ -37,68 +37,68 @@ import com.cyalc.repositories.ui.home.HomeScreen
 @OptIn(ExperimentalMaterial3Api::class)
 class MainActivity : ComponentActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            val navController = rememberNavController()
-            val currentBackStackEntry by navController.currentBackStackEntryAsState()
-            val showBackArrow by remember(currentBackStackEntry) {
-                mutableStateOf(navController.previousBackStackEntry != null)
-            }
-            val snackbarHostState = remember { SnackbarHostState() }
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    enableEdgeToEdge()
+    setContent {
+      val navController = rememberNavController()
+      val currentBackStackEntry by navController.currentBackStackEntryAsState()
+      val showBackArrow by remember(currentBackStackEntry) {
+        mutableStateOf(navController.previousBackStackEntry != null)
+      }
+      val snackbarHostState = remember { SnackbarHostState() }
 
-            AppTheme {
-                Scaffold(
-                    snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
-                    topBar = {
-                        TopAppBar(
-                            colors = topAppBarColors(
-                                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                                titleContentColor = MaterialTheme.colorScheme.primary,
-                            ),
-                            title = {
-                                // TODO: make this a string resource
-                                Text(text = "Github Repos")
-                            },
-                            navigationIcon = {
-                                if (showBackArrow) {
-                                    IconButton(onClick = { navController.navigateUp() }) {
-                                        Icon(
-                                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                            contentDescription = "Back"
-                                        )
-                                    }
-                                }
-                            }
-                        )
-                    },
-                    modifier = Modifier.fillMaxSize()
-                ) { innerPadding ->
-                    NavHost(navController = navController, startDestination = "home") {
-                        composable("home") {
-                            HomeScreen(
-                                modifier = Modifier.padding(innerPadding),
-                                snackbarHostState = snackbarHostState
-                            ) { id ->
-                                navController.navigate("details/$id")
-                            }
-                        }
-                        composable(
-                            route = "details/{id}",
-                            arguments = listOf(navArgument("id") { type = NavType.LongType })
-                        ) { backStackEntry ->
-                            val id = backStackEntry.arguments?.getLong("id") ?: 0L
-                            val context = LocalContext.current
-                            RepoDetailScreen(
-                                id = id,
-                                modifier = Modifier.padding(innerPadding),
-                                onOpenUrl = { url -> openInBrowser(context, url) }
-                            )
-                        }
-                    }
+      AppTheme {
+        Scaffold(
+          snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
+          topBar = {
+            TopAppBar(
+              colors = topAppBarColors(
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                titleContentColor = MaterialTheme.colorScheme.primary,
+              ),
+              title = {
+                // TODO: make this a string resource
+                Text(text = "Github Repos")
+              },
+              navigationIcon = {
+                if (showBackArrow) {
+                  IconButton(onClick = { navController.navigateUp() }) {
+                    Icon(
+                      imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                      contentDescription = "Back",
+                    )
+                  }
                 }
+              },
+            )
+          },
+          modifier = Modifier.fillMaxSize(),
+        ) { innerPadding ->
+          NavHost(navController = navController, startDestination = "home") {
+            composable("home") {
+              HomeScreen(
+                modifier = Modifier.padding(innerPadding),
+                snackbarHostState = snackbarHostState,
+              ) { id ->
+                navController.navigate("details/$id")
+              }
             }
+            composable(
+              route = "details/{id}",
+              arguments = listOf(navArgument("id") { type = NavType.LongType }),
+            ) { backStackEntry ->
+              val id = backStackEntry.arguments?.getLong("id") ?: 0L
+              val context = LocalContext.current
+              RepoDetailScreen(
+                id = id,
+                modifier = Modifier.padding(innerPadding),
+                onOpenUrl = { url -> openInBrowser(context, url) },
+              )
+            }
+          }
         }
+      }
     }
+  }
 }
